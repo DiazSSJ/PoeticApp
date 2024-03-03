@@ -1,6 +1,6 @@
-const API_KEY = "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";
+const API_KEY = "your api";
 
-async function getCompletion(prompt) {
+async function getCompletion(messages) {
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: "POST",
     headers: {
@@ -8,18 +8,18 @@ async function getCompletion(prompt) {
       Authorization: `Bearer ${API_KEY}`,
     },
     body: JSON.stringify({
-      model: "text-davinci-003",
-      prompt: prompt,
+      model: "gpt-3.5-turbo-16k",
+      messages: [{ role: "user", content: messages }],
       max_tokens: 20,
     }),
   });
 
   const data = await response.json();
-  // console.log(data)
   return data;
 }
 
 // getCompletion()
+
 
 const prompt = document.querySelector("#prompt");
 const button = document.querySelector("#generate");
@@ -31,6 +31,6 @@ button.addEventListener("click", async () => {
   if (!prompt.value) window.alert("Please enter a prompt");
 
   const response = await getCompletion(prompt.value);
-  console.log(response);
-  output.innerHTML = response.choices[0].text;
+  const content = response.choices[0].message.content;
+  output.innerHTML = content;
 });
