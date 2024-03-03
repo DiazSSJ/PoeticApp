@@ -4,16 +4,56 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="index.css">
   <title>PoeticApp</title>
 </head>
 <body>
 
   <h1>PoeticApp OpenAI</h1>
 
-  <input type="text" placeholder="Write your prompt" id="prompt">
-  <button id="generate">Generate</button>
+  
+  <div class="container">
 
-  <p id="output"></p>
+    <label class="subtitulo" for="animo">Estado de animo:</label>
+      <select id="animo" name="animo">
+          <option value="feliz">Feliz</option>
+          <option value="triste">Triste</option>
+          <option value="enojado">Enojado</option>
+          <option value="ansioso">Ansioso</option>
+          <option value="emocionado">Emocionado</option>
+          <option value="relajado">Relajado</option>
+          <option value="exhausto">Exhausto</option>
+          <option value="optimista">Optimista</option>
+          <option value="pesimista">Pesimista</option>
+          <option value="confundido">Confundido</option>
+          <option value="aburrido">Aburrido</option>
+          <option value="nervioso">Nervioso</option>
+          <option value="agradecido">Agradecido</option>
+          <option value="inspirado">Inspirado</option>
+      </select>
+
+    <label  class="subtitulo" for="destinatario">¿Para quien va dirigido?:</label>
+    <input type="text" placeholder="" id="to">
+    
+    <label  class="subtitulo" for="tipoPoema">Tipo de poema:</label>
+      <select id="tipoPoema" name="tipoPoema">
+          <option value="soneto">Soneto</option>
+          <option value="haiku">Haiku</option>
+          <option value="oda">Oda</option>
+          <option value="elegia">Elegía</option>
+          <option value="romance">Romance</option>
+          <option value="epigrama">Epigrama</option>
+      </select>
+
+
+    <button class="boton" id="generate">Generate</button>
+
+    <p id="output"></p>
+  </div>
+
+  
+
+  
   
 
   <script src="./app.js"></script>

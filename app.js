@@ -21,9 +21,13 @@ async function getCompletion(messages) {
 // getCompletion()
 
 
-const prompt = document.querySelector("#prompt");
+const animo = document.querySelector("#animo");
+const to = document.querySelector("#to");
+const tipo = document.querySelector("#tipoPoema");
+
 const button = document.querySelector("#generate");
 const output = document.querySelector("#output");
+
 
 button.addEventListener("click", async () => {
   console.log(prompt.value);
