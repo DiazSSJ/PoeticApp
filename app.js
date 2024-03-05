@@ -1,4 +1,4 @@
-const API_KEY = "your api";
+const API_KEY = "your key";
 
 async function getCompletion(messages) {
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -18,23 +18,30 @@ async function getCompletion(messages) {
   return data;
 }
 
-// getCompletion()
-
-
 const animo = document.querySelector("#animo");
-const to = document.querySelector("#to");
 const tipo = document.querySelector("#tipoPoema");
 
 const button = document.querySelector("#generate");
 const output = document.querySelector("#output");
 
 
+
+
 button.addEventListener("click", async () => {
-  console.log(prompt.value);
 
-  if (!prompt.value) window.alert("Please enter a prompt");
+  
+  const to = document.getElementById('to').value;
 
-  const response = await getCompletion(prompt.value);
+  const prompt = `Eres un experto en poesía de toda categoría y amante de ayudar a los demás a expresar sus sentimientos con poemas. Quiero que escribas un poema de tipo ${tipo.value} para ${to} teniendo en cuenta que me siento ${animo.value}. Quiero que hagas uso de todos los recursos que tengas disponible para que el poema sea breve, conciso pero contundente con su mensaje, y que exprese lo que siento.`;
+
+  console.log(prompt)
+
+  if (!prompt) {
+    window.alert("Please enter a prompt");
+    return;
+  }
+
+  const response = await getCompletion(prompt);
   const content = response.choices[0].message.content;
   output.innerHTML = content;
 });
