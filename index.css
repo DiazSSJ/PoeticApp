@@ -1,16 +1,124 @@
+@font-face {
+    font-family: 'handwriting';
+    src: url('fonts/journal-webfont.woff2') format('woff2'),
+         url('fonts/journal-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'typewriter';
+    src: url('fonts/veteran_typewriter-webfont.woff2') format('woff2'),
+         url('fonts/veteran_typewriter-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    background-image: url(background.jpg);
+    background-size: cover;
+    font : 1.5em "typewriter", monospace;
+}
+
+.izquierda {
+    width: 50%;
+    margin: auto;
+    height: 100vh;
+    position: relative;
+}
+
+.derecha {
+    height: 100vh;
+    width: 50%;
+    margin: auto;
+    position: relative;
+}
+
+.pantalla_dividida{
+    display: flex;
+}
+
 .container{
     display: flex;
     flex-direction: column;
-    width: 25%;
+    width: 75%;
+    background-color: rgba(0, 0, 0, 0.4);
+	margin: auto auto;
+	padding: 40px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px #000;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 75%;
+    color: #ffffff; 
+}
+
+.resultado {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    background-color: rgba(0, 0, 0, 0.4);
+	margin: auto auto;
+	padding: 40px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px #000;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 75%;
+    color: #ffffff; 
+    
 }
 
 .subtitulo{
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-bottom: 3%;
+    margin-top: 3%;
+}
 
+select, input {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    border: none;
+    padding: 3px;
+    color: #ffffff;
 }
 
 .boton{
-    margin-bottom: 30px;
-    margin-top: 30px;
+    margin-bottom: 3%;
+    margin-top: 10%;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    border: none;
+    padding: 50px;
+    color: #ffffff;
+    transition-duration: 0.4s;
 }
+
+.boton_descarga {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.descarga {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    border: none;
+    color: #ffffff;
+    transition-duration: 0.4s;
+    position: absolute;
+    bottom: 2%;  
+    right: 2%;
+    padding: 10px;
+}
+
+.boton:hover, .descarga:hover {
+    background-color: rgba(0, 0, 0, 1.4);
+
+}
+
