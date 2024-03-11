@@ -91,7 +91,7 @@ select, input {
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 6px;
     border: none;
-    padding: 50px;
+    padding: 40px;
     color: #ffffff;
     transition-duration: 0.4s;
     box-sizing: border-box;
