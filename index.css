@@ -18,24 +18,18 @@ body{
     background-image: url(background.jpg);
     background-size: cover;
     font : 1.5em "typewriter", monospace;
+    margin: 0; 
 }
 
-.izquierda {
-    width: 50%;
-    margin: auto;
-    height: 100vh;
+.izquierda, .derecha {
+    width: 100%; /* Ambos ocupan el 100% del ancho */
+    height: 50vh; /* La mitad de la altura de la ventana */
     position: relative;
 }
 
-.derecha {
-    height: 100vh;
-    width: 50%;
-    margin: auto;
-    position: relative;
-}
-
-.pantalla_dividida{
+.pantalla_dividida {
     display: flex;
+    flex-wrap: wrap; /* Permitir que los elementos se ajusten a una sola fila si es necesario */
 }
 
 .container{
@@ -44,7 +38,7 @@ body{
     width: 75%;
     background-color: rgba(0, 0, 0, 0.4);
 	margin: auto auto;
-	padding: 40px;
+	padding: 5%;
 	border-radius: 5px;
 	box-shadow: 0 0 10px #000;
 	position: absolute;
@@ -54,6 +48,7 @@ body{
 	right: 0;
 	height: 75%;
     color: #ffffff; 
+    box-sizing: border-box;
 }
 
 .resultado {
@@ -62,7 +57,7 @@ body{
     width: 75%;
     background-color: rgba(0, 0, 0, 0.4);
 	margin: auto auto;
-	padding: 40px;
+	padding: 5%;
 	border-radius: 5px;
 	box-shadow: 0 0 10px #000;
 	position: absolute;
@@ -72,7 +67,7 @@ body{
 	right: 0;
 	height: 75%;
     color: #ffffff; 
-    
+    box-sizing: border-box;
 }
 
 .subtitulo{
@@ -86,6 +81,8 @@ select, input {
     border: none;
     padding: 3px;
     color: #ffffff;
+    width: 100%; /* Ocupar todo el ancho disponible */
+    box-sizing: border-box;
 }
 
 .boton{
@@ -97,6 +94,7 @@ select, input {
     padding: 50px;
     color: #ffffff;
     transition-duration: 0.4s;
+    box-sizing: border-box;
 }
 
 .boton_descarga {
@@ -115,6 +113,7 @@ select, input {
     bottom: 2%;  
     right: 2%;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 .boton:hover, .descarga:hover {
@@ -122,3 +121,42 @@ select, input {
 
 }
 
+@media screen and (max-width: 768px) { /* Ajustes para dispositivos más grandes */
+    .boton{
+        margin-bottom: 3%;
+        margin-top: 1%;
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 6px;
+        border: none;
+        padding: 5px;
+        color: #ffffff;
+        transition-duration: 0.4s;
+        box-sizing: border-box;
+    }
+    select, input {
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 6px;
+        border: none;
+        padding: 0px;
+        color: #ffffff;
+        width: 100%; /* Ocupar todo el ancho disponible */
+        box-sizing: border-box;
+    }
+    .subtitulo{
+        margin-bottom: 1%;
+        margin-top: 1%;
+    }
+}
+
+@media screen and (min-width: 768px) { /* Ajustes para dispositivos más grandes */
+    .izquierda, .derecha {
+        width: 50%; /* Ambos ocupan el 50% del ancho */
+        height: 100vh; /* Volver a ocupar toda la altura */
+    }
+}
+
+@media screen and (min-width: 1024px) { /* Ajustes para dispositivos aún más grandes */
+    .container, .resultado {
+        width: 75%; /* Ambos ocupan el 50% del ancho */
+    }
+}
