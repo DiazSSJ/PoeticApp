@@ -3,13 +3,15 @@ const output = document.querySelector("#output");
 const descargaButton = document.querySelector(".descarga");
 
 
+const server_url = 'http://localhost:3000/generate' 
+
 button.addEventListener("click", async () => {
 
   const to = document.getElementById('to').value;
   const animo = document.querySelector("#animo").value;
   const tipo= document.querySelector("#tipoPoema").value;
 
-  const response = await fetch('http://localhost:3000/generate', {
+  const response = await fetch(server_url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
