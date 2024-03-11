@@ -42,8 +42,8 @@ app.post('/generate', async (req, res) => {
   const { to, animo, tipo } = req.body;
 
   const prompt =`Eres un experto en poesía de toda categoría y amante de ayudar a los demás a expresar sus
-   sentimientos con poemas.Quiero que escribas un poema de tipo ${tipo.value} para ${to} teniendo en cuenta
-    que me siento ${animo.value}.Quiero que hagas uso de todos los recursos que tengas disponible para que el
+   sentimientos con poemas.Quiero que escribas un poema de tipo ${tipo} para ${to} teniendo en cuenta
+    que me siento ${animo}.Quiero que hagas uso de todos los recursos que tengas disponible para que el
      poema sea conciso pero contundente con su mensaje, y que exprese lo que siento. Debe de ser de almenos 20 y maximo 30 palabras.`;
 
   if (!prompt) {
