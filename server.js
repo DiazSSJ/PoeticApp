@@ -12,8 +12,10 @@ app.use(cors({
   }));
 
 app.use(express.json());
+app.use(express.static('public'));
 
 const port = 3000;
+const host = '0.0.0.0'
 
 const API_KEY = process.env.API_KEY;
 
@@ -67,6 +69,6 @@ app.post('/generate', async (req, res) => {
 
 });
 
-app.listen(port, () => {
+app.listen(port, host, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

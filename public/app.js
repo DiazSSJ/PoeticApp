@@ -3,7 +3,7 @@ const output = document.querySelector("#output");
 const descargaButton = document.querySelector(".descarga");
 
 
-const server_url = 'http://localhost:3000/generate' 
+const server_url = '/generate' 
 
 button.addEventListener("click", async () => {
 
