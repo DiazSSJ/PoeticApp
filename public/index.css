@@ -91,7 +91,7 @@ select, input {
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 6px;
     border: none;
-    padding: 40px;
+    padding: 6%;
     color: #ffffff;
     transition-duration: 0.4s;
     box-sizing: border-box;
@@ -160,3 +160,6 @@ select, input {
         width: 75%; /* Ambos ocupan el 50% del ancho */
     }
 }
+
+
+

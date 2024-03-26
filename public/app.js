@@ -1,6 +1,26 @@
 const button = document.querySelector("#generate");
 const output = document.querySelector("#output");
 const descargaButton = document.querySelector(".descarga");
+const playButton = document.querySelector(".play");
+const stopButton = document.querySelector(".stop");
+
+
+
+//reproducir audio
+
+let sound = new Audio('poema.mp3')
+
+playButton.addEventListener('click', ()=>{
+  sound.play();
+});
+
+stopButton.addEventListener('click', ()=>{
+  sound.pause();
+});
+
+//reproducir audio
+
+
 
 //grabar audios
 const recordAnimo = document.getElementById("recordAnimo");
@@ -9,6 +29,8 @@ let audioChunks = [];
 
 
 const server_url = '/generate' 
+
+
 
 button.addEventListener("click", async () => {
 

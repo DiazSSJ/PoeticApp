@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import fetch from 'node-fetch'; 
+import fetch from 'node-fetch';
 import express, { response } from 'express';
 import cors from 'cors';
 import multer from 'multer';
@@ -11,8 +11,8 @@ const app = express();
 
 //middleware to enable CORS
 app.use(cors({
-    origin: '*'
-  }));
+  origin: '*'
+}));
 
 app.use(express.json());
 app.use(express.static('public'));
@@ -58,12 +58,36 @@ function getSpeechToText(messages) {
   return response
 }
 
+
+function textToSpeech(message){
+
+  const xmlMessage = `<?xml version="1.0"?>
+                      <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="es-ES">
+                        <voice name="en-US-JennyMultilingualNeural">
+                          ${message}
+                        </voice>
+                      </speak>`
+
+  const response = fetch('https://westus.tts.speech.microsoft.com/cognitiveservices/v1', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/ssml+xml",
+      "Ocp-Apim-Subscription-Key": `${AZURE_KEY}`,
+      "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3"
+    },
+    body: xmlMessage  
+  });
+
+  return response
+}
+
+
 app.use(express.static('public'));
 
 app.post('/generate', async (req, res) => {
   const { to, animo, tipo } = req.body;
 
-  const prompt =`Eres un experto en poesía de toda categoría y amante de ayudar a los demás a expresar sus
+  const prompt = `Eres un experto en poesía de toda categoría y amante de ayudar a los demás a expresar sus
    sentimientos con poemas.Quiero que escribas un poema de tipo ${tipo} para ${to} teniendo en cuenta
     que me siento ${animo}.Quiero que hagas uso de todos los recursos que tengas disponible para que el
      poema sea conciso pero contundente con su mensaje, y que exprese lo que siento. Debe de ser de almenos 20 y maximo 30 palabras.`;
@@ -91,23 +115,51 @@ app.post('/generate', async (req, res) => {
 
 });
 
+
+
 //grabar audio
 // Ruta para manejar la carga de archivos de audio
 app.post('/upload-audio', upload.single('audio'), async (req, res) => {
- 
+
   if (!req.file) {
     return res.status(400).send("No se proporcionó ningún archivo de audio.");
   }
   //console.log(req.file)
 
-  const response = await getSpeechToText(req.file);
+  textToSpeech("Madre amada, en tus brazos el amor florece, tu dulzura y ternura mi corazón enriquece. Eres mi guía, mi refugio y mi luz divina, Gracias, mamá querida").then(response => {
+    console.log(response);
+
+    if (!response.ok) {
+      throw new Error('La solicitud no fue exitosa.');
+    }
+
+    const fileStream = fs.createWriteStream("public/poema.mp3");
+    new Promise((resolve, reject) => {
+      response.body.pipe(fileStream);
+      response.body.on('error', err => {
+        reject(err);
+      });
+      fileStream.on('finish', () => {
+        resolve();
+      });
+    });
+
+    console.log('Archivo guardado exitosamente.');
+
+  })
+    .catch(error => {
+      // Manejar errores aquí
+      console.error('Error al realizar la solicitud:', error);
+    });
+
+  /*const response = await getSpeechToText(req.file);
   response.json()
   .then(data => {
     console.log(data); // Aquí puedes acceder a los datos JSON
   })
   .catch(error => {
     console.error("Error al obtener los datos JSON:", error);
-  });
+  });*/
 
   const targetDir = 'uploads/';
 
@@ -125,9 +177,8 @@ app.post('/upload-audio', upload.single('audio'), async (req, res) => {
 
 });
 
-
-
 //grabar audio
+
 
 app.listen(port, host, () => {
   console.log(`Server is running at http://localhost:${port}`);
