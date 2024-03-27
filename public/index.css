@@ -32,7 +32,7 @@ body{
     flex-wrap: wrap; /* Permitir que los elementos se ajusten a una sola fila si es necesario */
 }
 
-.container{
+.container, .resultado{
     display: flex;
     flex-direction: column;
     width: 75%;
@@ -51,24 +51,29 @@ body{
     box-sizing: border-box;
 }
 
-.resultado {
-    display: flex;
-    flex-direction: column;
-    width: 75%;
-    background-color: rgba(0, 0, 0, 0.4);
+dialog{
+    width: 35%;
+    background-color: rgba(0,0,0, 0.75);
 	margin: auto auto;
 	padding: 5%;
-	border-radius: 5px;
+	border-radius: 15px;
 	box-shadow: 0 0 10px #000;
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	height: 75%;
+	height: 35%;
     color: #ffffff; 
     box-sizing: border-box;
+    overflow: hidden;
 }
+
+#genero {
+    background-color: rgba(106, 106, 106, 0.4);
+    margin-top: 1rem;
+}
+
 
 .subtitulo{
     margin-bottom: 3%;
@@ -114,6 +119,24 @@ select, input {
     box-sizing: border-box;
 }
 
+.dialog_button{
+    background-color: rgba(106, 106, 106, 0.4);
+    border-radius: 6px;
+    border: none;
+    color: #ffffff;
+    transition-duration: 0.4s;
+    padding: 10px;
+    margin-right: 5px; 
+    box-sizing: border-box;
+    font-size: 22px; 
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.dialog_button:hover{
+    background-color: rgba(106, 106, 106, 1.4);
+}
+
 .play, .pause,.descarga_audio, .generate_audio{
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 6px;
@@ -144,7 +167,7 @@ select, input {
 
 
 
-.boton:hover, .descarga:hover, .generate_audio:hover, .play:hover, .pause:hover, .descarga_audio:hover {
+.boton:hover, .descarga:hover, .generate_audio:hover, .play:hover, .pause:hover, .descarga_audio:hover{
     background-color: rgba(0, 0, 0, 1.4);
 
 }

@@ -7,40 +7,50 @@ const descargarAudio = document.getElementById("download_audio")
 const playingText = document.querySelector("#playing_text");
 const generateAudio = document.querySelector(".generate_audio");
 const generatingAudio = document.querySelector(".generating_audio");
+const dialog = document.querySelector(".dialog_button");
+const alertDialog = document.querySelector("#alert-dialog");
 
 
 var sound = new Audio();
+
+dialog.addEventListener('click', async () => {
+  alertDialog.close();
+  generateAudio.style.display = "block";
+});
 
 //Generar Audio
 generateAudio.addEventListener('click', async () => {
 
   const outputElement = document.getElementById('output');
   const content = outputElement.textContent;
+  generateAudio.style.display = "none";
+      
+  alertDialog.showModal();
  
-  try {
-    const response = await fetch('/generate-audio', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ content })
-    });
+  // try {
+  //   const response = await fetch('/generate-audio', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({ content })
+  //   });
 
-    // Esperar a que se complete la petición antes de continuar
-    if (response.ok) {
-      // Si la petición fue exitosa, ocultar el botón de generación
-      generateAudio.style.display = "none";
-      // Mostrar los botones de reproducción y descarga
-      playButton.style.display = "block";
-      pauseButton.style.display = "block";
-      descargarAudio.style.display = "block";
+  //   // Esperar a que se complete la petición antes de continuar
+  //   if (response.ok) {
+  //     // Si la petición fue exitosa, ocultar el botón de generación
+  //     generateAudio.style.display = "none";
+  //     // Mostrar los botones de reproducción y descarga
+  //     playButton.style.display = "block";
+  //     pauseButton.style.display = "block";
+  //     descargarAudio.style.display = "block";
 
-    } else {
-      console.error('Error al generar el audio:', response.status);
-    }
-  } catch (error) {
-    console.error('Error de red:', error);
-  }
+  //   } else {
+  //     console.error('Error al generar el audio:', response.status);
+  //   }
+  // } catch (error) {
+  //   console.error('Error de red:', error);
+  // }
 });
 
 //Generar Audio
