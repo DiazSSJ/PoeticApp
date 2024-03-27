@@ -98,10 +98,34 @@ select, input {
 }
 
 .boton_descarga {
+    
     position: relative;
     width: 100%;
     height: 100%;
 }
+
+.audio_controller {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: flex-end; 
+    width: 100%;
+    height: 100%;
+    padding: 10px; 
+    box-sizing: border-box;
+}
+
+.play, .pause,.descarga_audio, .generate_audio{
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    border: none;
+    color: #ffffff;
+    transition-duration: 0.4s;
+    padding: 10px;
+    margin-right: 5px; 
+    box-sizing: border-box;
+    font-size: 22px; /* Tamaño del icono */
+}
+
 
 .descarga {
     background-color: rgba(0, 0, 0, 0.4);
@@ -116,7 +140,11 @@ select, input {
     box-sizing: border-box;
 }
 
-.boton:hover, .descarga:hover {
+
+
+
+
+.boton:hover, .descarga:hover, .generate_audio:hover, .play:hover, .pause:hover, .descarga_audio:hover {
     background-color: rgba(0, 0, 0, 1.4);
 
 }

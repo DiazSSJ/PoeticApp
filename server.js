@@ -59,7 +59,7 @@ function getSpeechToText(messages) {
 }
 
 
-function textToSpeech(message){
+function textToSpeech(message) {
 
   const xmlMessage = `<?xml version="1.0"?>
                       <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="es-ES">
@@ -75,7 +75,7 @@ function textToSpeech(message){
       "Ocp-Apim-Subscription-Key": `${AZURE_KEY}`,
       "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3"
     },
-    body: xmlMessage  
+    body: xmlMessage
   });
 
   return response
@@ -114,6 +114,43 @@ app.post('/generate', async (req, res) => {
   }
 
 });
+
+
+
+app.post('/generate-audio', async (req, res) => {
+
+  const content = req.body.content;
+
+  console.log(content);
+
+  textToSpeech(content).then(response => {
+    console.log(response);
+
+    if (!response.ok) {
+      throw new Error('La solicitud no fue exitosa.');
+    }
+
+    const fileStream = fs.createWriteStream("public/poema.mp3");
+    new Promise((resolve, reject) => {
+      response.body.pipe(fileStream);
+      response.body.on('error', err => {
+        reject(err);
+      });
+      fileStream.on('finish', () => {
+        resolve();
+      });
+    });
+
+    console.log('Archivo guardado exitosamente.');
+    res.send(response);
+
+  })
+    .catch(error => {
+      // Manejar errores aquÃ­
+      console.error('Error al realizar la solicitud:', error);
+    });
+});
+
 
 
 

@@ -2,23 +2,83 @@ const button = document.querySelector("#generate");
 const output = document.querySelector("#output");
 const descargaButton = document.querySelector(".descarga");
 const playButton = document.querySelector(".play");
-const stopButton = document.querySelector(".stop");
+const pauseButton = document.querySelector(".pause");
+const descargarAudio = document.getElementById("download_audio")
+const playingText = document.querySelector("#playing_text");
+const generateAudio = document.querySelector(".generate_audio");
+const generatingAudio = document.querySelector(".generating_audio");
 
+
+var sound = new Audio();
+
+//Generar Audio
+generateAudio.addEventListener('click', async () => {
+
+  const outputElement = document.getElementById('output');
+  const content = outputElement.textContent;
+ 
+  try {
+    const response = await fetch('/generate-audio', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ content })
+    });
+
+    // Esperar a que se complete la petición antes de continuar
+    if (response.ok) {
+      // Si la petición fue exitosa, ocultar el botón de generación
+      generateAudio.style.display = "none";
+      // Mostrar los botones de reproducción y descarga
+      playButton.style.display = "block";
+      pauseButton.style.display = "block";
+      descargarAudio.style.display = "block";
+
+    } else {
+      console.error('Error al generar el audio:', response.status);
+    }
+  } catch (error) {
+    console.error('Error de red:', error);
+  }
+});
+
+//Generar Audio
 
 
 //reproducir audio
 
-let sound = new Audio('poema.mp3')
 
-playButton.addEventListener('click', ()=>{
+
+playButton.addEventListener('click', () => {
+  sound = new Audio();
+  sound.src = 'poema.mp3';
   sound.play();
+  playingText.style.display = "block";
 });
 
-stopButton.addEventListener('click', ()=>{
+pauseButton.addEventListener('click', () => {
   sound.pause();
+  playingText.style.display = "none";
 });
+
 
 //reproducir audio
+
+
+//Descargar Audio 
+// Agregar evento click al botón de descarga
+descargarAudio.addEventListener('click', () => {
+  // Crear un enlace <a> para descargar el archivo de audio
+  const downloadLink = document.createElement('a');
+  downloadLink.href = sound.src; // Obtener la ruta del archivo de audio
+  downloadLink.download = 'poema.mp3'; // Nombre de archivo para descargar
+  document.body.appendChild(downloadLink); // Agregar el enlace al DOM
+  downloadLink.click(); // Simular clic en el enlace para iniciar la descarga
+  document.body.removeChild(downloadLink); // Eliminar el enlace después de la descarga
+});
+
+//Desacargar Audio
 
 
 
@@ -28,7 +88,7 @@ let mediaRecorder;
 let audioChunks = [];
 
 
-const server_url = '/generate' 
+const server_url = '/generate'
 
 
 
@@ -36,7 +96,16 @@ button.addEventListener("click", async () => {
 
   const to = document.getElementById('to').value;
   const animo = document.querySelector("#animo").value;
-  const tipo= document.querySelector("#tipoPoema").value;
+  const tipo = document.querySelector("#tipoPoema").value;
+
+  generateAudio.style.display = "block";
+  // Mostrar los botones de reproducción y descarga
+  playButton.style.display = "none";
+  pauseButton.style.display = "none";
+  descargarAudio.style.display = "none";
+  playingText.style.display = "none";
+  
+
 
   const response = await fetch(server_url, {
     method: 'POST',
@@ -59,11 +128,11 @@ descargaButton.addEventListener("click", async () => {
   }
 
   const opt = {
-    margin:       1,
-    filename:     'poema.pdf',
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    margin: 1,
+    filename: 'poema.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
   };
 
   html2pdf().set(opt).from(output).save();
@@ -100,8 +169,8 @@ async function startRecording() {
         method: 'POST',
         body: formData
       });
-    
-      
+
+
     };
 
     mediaRecorder.start();
