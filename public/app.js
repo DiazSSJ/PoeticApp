@@ -14,19 +14,61 @@ const alertDialog = document.querySelector("#alert-dialog");
 var sound = new Audio();
 
 dialog.addEventListener('click', async () => {
+
+  var genero = document.getElementById('genero');
+
+  var voice = "";
+
+  if (genero.value == "hombre") {
+
+    voice = "de-DE-FlorianMultilingualNeural";
+  } else {
+    voice = "en-US-JennyMultilingualNeural";
+  }
+
+
+  const outputElement = document.getElementById('output');
+  var content = outputElement.textContent;
   alertDialog.close();
-  generateAudio.style.display = "block";
+
+  try {
+    const response = await fetch('/generate-audio', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ content, voice })
+    });
+
+    // Esperar a que se complete la petición antes de continuar
+    if (response.ok) {
+      // Si la petición fue exitosa, ocultar el botón de generación
+      generateAudio.style.display = "none";
+      // Mostrar los botones de reproducción y descarga
+      playButton.style.display = "block";
+      pauseButton.style.display = "block";
+      descargarAudio.style.display = "block";
+
+    } else {
+      console.error('Error al generar el audio:', response.status);
+    }
+  } catch (error) {
+    console.error('Error de red:', error);
+  }
+
+
+
+
 });
 
 //Generar Audio
 generateAudio.addEventListener('click', async () => {
 
-  const outputElement = document.getElementById('output');
-  const content = outputElement.textContent;
+
   generateAudio.style.display = "none";
-      
+
   alertDialog.showModal();
- 
+
   // try {
   //   const response = await fetch('/generate-audio', {
   //     method: 'POST',
@@ -114,7 +156,7 @@ button.addEventListener("click", async () => {
   pauseButton.style.display = "none";
   descargarAudio.style.display = "none";
   playingText.style.display = "none";
-  
+
 
 
   const response = await fetch(server_url, {
@@ -207,12 +249,13 @@ function stopRecording() {
   }
 }
 
-recordAnimo.addEventListener("click", () => {
-  if (mediaRecorder && mediaRecorder.state === "recording") {
-    stopRecording();
-  } else {
-    startRecording();
-  }
-});
+
+// recordAnimo.addEventListener("click", () => {
+//   if (mediaRecorder && mediaRecorder.state === "recording") {
+//     stopRecording();
+//   } else {
+//     startRecording();
+//   }
+// });
 
 //grabar audio

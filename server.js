@@ -59,11 +59,11 @@ function getSpeechToText(messages) {
 }
 
 
-function textToSpeech(message) {
+function textToSpeech(message, voice) {
 
   const xmlMessage = `<?xml version="1.0"?>
                       <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="es-ES">
-                        <voice name="en-US-JennyMultilingualNeural">
+                        <voice name= "${voice}">
                           ${message}
                         </voice>
                       </speak>`
@@ -119,12 +119,12 @@ app.post('/generate', async (req, res) => {
 
 app.post('/generate-audio', async (req, res) => {
 
-  const content = req.body.content;
+  var content = req.body.content;
+  var voice = req.body.voice;
 
-  console.log(content);
+  console.log(voice);
 
-  textToSpeech(content).then(response => {
-    console.log(response);
+  textToSpeech(content, voice).then(response => {
 
     if (!response.ok) {
       throw new Error('La solicitud no fue exitosa.');
