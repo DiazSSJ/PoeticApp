@@ -9,10 +9,30 @@ const generateAudio = document.querySelector(".generate_audio");
 const generatingAudio = document.querySelector(".generating_audio");
 const dialog = document.querySelector(".dialog_button");
 const alertDialog = document.querySelector("#alert-dialog");
+const borrarAudio = document.querySelector(".borrar_audio");
+const confirmDialog = document.getElementById("confirm_delete");
+const confirmDelete = document.querySelector(".confirm_button");
 
-const ingles=document.getElementById("ingles");
+
 
 var sound = new Audio();
+
+
+borrarAudio.addEventListener('click', () => {
+  confirmDialog.showModal();
+});
+
+
+confirmDelete.addEventListener('click', () => {
+  confirmDialog.close();
+  playButton.style.display = "none";
+  pauseButton.style.display = "none";
+  descargarAudio.style.display = "none";
+  borrarAudio.style.display = "none";
+  generateAudio.style.display = "block";
+});
+
+/** 
 
 ingles.addEventListener('click', async()=>{
 
@@ -43,24 +63,41 @@ ingles.addEventListener('click', async()=>{
 
 })
 
+*/
+
 dialog.addEventListener('click', async () => {
-
   var genero = document.getElementById('genero');
-
+  var idioma = document.getElementById('idioma');
   var voice = "";
 
-  if (genero.value == "hombre") {
-    voice = "de-DE-FlorianMultilingualNeural";
-  } else {
-    voice = "en-US-JennyMultilingualNeural";
-  }
+  var lan = idioma.value;
 
   const outputElement = document.getElementById('output');
   var content = outputElement.textContent;
-  alertDialog.close();
 
   try {
-    const response = await fetch('/generate-audio', {
+    // Realizar la traducción si es necesario
+    if (idioma.value != "es") {
+      const translationResponse = await fetch('/translate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content, lan })
+      });
+      // Esperar a que se complete la petición antes de continuar
+      content = await translationResponse.text();
+    }
+
+    // Determinar la voz basada en el género seleccionado
+    if (genero.value == "hombre") {
+      voice = "de-DE-FlorianMultilingualNeural";
+    } else {
+      voice = "en-US-JennyMultilingualNeural";
+    }
+
+    // Realizar la solicitud para generar el audio
+    const audioResponse = await fetch('/generate-audio', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -69,24 +106,21 @@ dialog.addEventListener('click', async () => {
     });
 
     // Esperar a que se complete la petición antes de continuar
-    if (response.ok) {
+    if (audioResponse.ok) {
       // Si la petición fue exitosa, ocultar el botón de generación
       generateAudio.style.display = "none";
       // Mostrar los botones de reproducción y descarga
       playButton.style.display = "block";
       pauseButton.style.display = "block";
       descargarAudio.style.display = "block";
-
+      borrarAudio.style.display = "block";
+      alertDialog.close();
     } else {
-      console.error('Error al generar el audio:', response.status);
+      console.error('Error al generar el audio:', audioResponse.status);
     }
   } catch (error) {
     console.error('Error de red:', error);
   }
-
-
-
-
 });
 
 //Generar Audio
@@ -132,7 +166,7 @@ generateAudio.addEventListener('click', async () => {
 
 playButton.addEventListener('click', () => {
   sound = new Audio();
-  sound.src = 'poema.mp3';
+  sound.src = `poema.mp3?${new Date().getTime()}`; // Agregar un parámetro de consulta único
   sound.play();
   playingText.style.display = "block";
 });

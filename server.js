@@ -83,7 +83,7 @@ function textToSpeech(message, voice) {
   return response
 }
 
-function traslation(message, lan){
+function traslation(message, lan) {
   const response = fetch(`https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${lan}`, {
     method: "POST",
     headers: {
@@ -101,6 +101,18 @@ function traslation(message, lan){
 app.use(express.static('public'));
 
 app.post('/generate', async (req, res) => {
+
+  const rutaArchivo = "public/poema.mp3";
+
+  // Verificar si el archivo existe
+  if (fs.existsSync(rutaArchivo)) {
+    // Si existe, borrarlo
+    fs.unlinkSync(rutaArchivo);
+    console.log('Se ha borrado el archivo existente:', rutaArchivo);
+  } else {
+    console.log('El archivo no existe:', rutaArchivo);
+  }
+  
   const { to, animo, tipo } = req.body;
 
   const prompt = `Eres un experto en poesía de toda categoría y amante de ayudar a los demás a expresar sus
@@ -166,12 +178,12 @@ app.post('/generate-audio', async (req, res) => {
 
 //traducir texto 
 
-app.post('/traslate', async (req, res)=>{
+app.post('/translate', async (req, res) => {
   var content = req.body.content;
-  var lan= req.body.lan;
+  var lan = req.body.lan;
 
-  var response = await traslation("Tu amor infinito, madre querida, es luz que ilumina mi camino, con ternura y paciencia compartida, me enseñas a volar alto y divino. En tu abrazo, encuentro la fortaleza", lan)
-  
+  var response = await traslation(content, lan)
+
   response.json().then(data => {
 
     if (!response.ok) {
@@ -183,8 +195,8 @@ app.post('/traslate', async (req, res)=>{
     res.send(data[0].translations[0].text);
 
   }).catch(error => {
-      // Manejar errores aquÃ­
-      console.error('Error al realizar la solicitud:', error);
+    // Manejar errores aquÃ­
+    console.error('Error al realizar la solicitud:', error);
   });
 
 })

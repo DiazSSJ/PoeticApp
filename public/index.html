@@ -67,22 +67,41 @@
           <div class="audio_controller">
             <button class="play" style="display: none;"><i class="bi bi-play"></i> </button>
             <button class="pause" style="display: none;"> <i class="bi bi-arrow-clockwise"></i> </button>
-            <button id="download_audio" class="descarga_audio" style="display: none;"> <i class="bi bi-download"></i> </button>
+            <button id="download_audio" class="descarga_audio" style="display: none;"> <i class="bi bi-download"></i>
+            <button id="remove_audio" class="borrar_audio" style="display: none;"> <i class="bi bi-trash"></i>
+            </button>
             <button class="generate_audio"> Generar Audio </button>
 
-            <button class="boton" id="ingles">Ingles</button>
-            
+
             <p id="generating_audio" style="display: none;">Generando...</p>
             <p id="playing_text" style="display: none;">Reproduciendo...</p>
             <dialog id="alert-dialog">
-              <h2 class="text-center">Con que voz quieres tu audio?</h2>
-              <select id="genero" name="genero" >
+              <h2 class="text-center">Selecciona el tipo de voz</h2>
+              <select id="genero" name="genero">
                 <option value="hombre">Hombre</option>
                 <option value="mujer">Mujer</option>
-               
               </select>
-              <button class ="dialog_button">Aceptar</button>
+
+              <h2 class="text-center">Selecciona el idioma</h2>
+
+              <select id="idioma" name="idioma">
+                <option value="es">Español</option>
+                <option value="en-US">Ingles</option>
+                <option value="it">Italiano</option>
+                <option value="fr">Frances</option>
+              </select>
+
+
+              <button class="dialog_button">Aceptar</button>
             </dialog>
+
+
+            <dialog id="confirm_delete">
+              <h2 class="text-center">Estas seguro de eliminar el audio?</h2>
+              <button class="confirm_button">Aceptar</button>
+            </dialog>
+
+
           </div>
         </div>
       </div>
