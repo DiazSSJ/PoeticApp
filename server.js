@@ -9,7 +9,6 @@ import path from 'path';
 dotenv.config();
 const app = express();
 
-//middleware to enable CORS
 app.use(cors({
   origin: '*'
 }));
