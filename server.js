@@ -22,6 +22,8 @@ const host = '0.0.0.0'
 
 const API_KEY = process.env.API_KEY;
 const AZURE_KEY = process.env.AZURE_KEY;
+const AZURE_TKEY = process.env.AZURE_TKEY;
+
 
 // Configurar multer para manejar la carga de archivos de audio
 const upload = multer({
@@ -81,6 +83,20 @@ function textToSpeech(message, voice) {
   return response
 }
 
+function traslation(message, lan){
+  const response = fetch(`https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${lan}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Ocp-Apim-Subscription-Key": `${AZURE_TKEY}`,
+      "Ocp-Apim-Subscription-Region": "eastus"
+    },
+    body: JSON.stringify([{ "text": message }])
+  });
+
+  return response;
+}
+
 
 app.use(express.static('public'));
 
@@ -115,14 +131,10 @@ app.post('/generate', async (req, res) => {
 
 });
 
-
-
 app.post('/generate-audio', async (req, res) => {
 
   var content = req.body.content;
   var voice = req.body.voice;
-
-  console.log(voice);
 
   textToSpeech(content, voice).then(response => {
 
@@ -152,7 +164,30 @@ app.post('/generate-audio', async (req, res) => {
 });
 
 
+//traducir texto 
 
+app.post('/traslate', async (req, res)=>{
+  var content = req.body.content;
+  var lan= req.body.lan;
+
+  var response = await traslation("Tu amor infinito, madre querida, es luz que ilumina mi camino, con ternura y paciencia compartida, me enseñas a volar alto y divino. En tu abrazo, encuentro la fortaleza", lan)
+  
+  response.json().then(data => {
+
+    if (!response.ok) {
+      throw new Error('La solicitud no fue exitosa.');
+    }
+
+    console.log(data[0].translations[0].text)
+
+    res.send(data[0].translations[0].text);
+
+  }).catch(error => {
+      // Manejar errores aquÃ­
+      console.error('Error al realizar la solicitud:', error);
+  });
+
+})
 
 //grabar audio
 // Ruta para manejar la carga de archivos de audio

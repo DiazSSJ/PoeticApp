@@ -10,8 +10,38 @@ const generatingAudio = document.querySelector(".generating_audio");
 const dialog = document.querySelector(".dialog_button");
 const alertDialog = document.querySelector("#alert-dialog");
 
+const ingles=document.getElementById("ingles");
 
 var sound = new Audio();
+
+ingles.addEventListener('click', async()=>{
+
+  const outputElement = document.getElementById('output');
+  var content = outputElement.textContent;
+
+  var lan = "en-US"
+
+  try {
+    const response = await fetch('/traslate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ content, lan })
+    });
+
+    // Esperar a que se complete la petición antes de continuar
+    if (response.ok) {
+      
+
+    } else {
+      console.error('Error al generar el audio:', response.status);
+    }
+  } catch (error) {
+    console.error('Error de red:', error);
+  }
+
+})
 
 dialog.addEventListener('click', async () => {
 
@@ -20,12 +50,10 @@ dialog.addEventListener('click', async () => {
   var voice = "";
 
   if (genero.value == "hombre") {
-
     voice = "de-DE-FlorianMultilingualNeural";
   } else {
     voice = "en-US-JennyMultilingualNeural";
   }
-
 
   const outputElement = document.getElementById('output');
   var content = outputElement.textContent;
